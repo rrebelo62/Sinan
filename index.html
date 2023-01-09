@@ -52,7 +52,7 @@
 
         .grip {
             background-color: white;
-            background-image: url("./grip_bg.svg");
+            background-image: url("./ui/grip_bg.svg");
             position: absolute;
             cursor: move;
         }
@@ -70,7 +70,7 @@
         .draw_btn {
             float: right;
             font-size: larger;
-            margin: 5px;
+            margin: 15px;
         }
 
         .color_button {
@@ -82,6 +82,7 @@
             border-radius: 5px;
         }
     </style>
+    <link rel="stylesheet" type="text/css" href="ui/nano.min.css" />
 </head>
 
 <body onload="init_color_picker()">
@@ -111,11 +112,10 @@
                     <input type="number" id="iteractions" style="width: 3em;" min="0" max="8" value="4" />
                 </div>
                 <div class="setting" id="color_setting">
-                    <div id="color1_container">Color 1:
-                        <input type="color" id="color1" value="#c04300" />
-                    </div>
+                    Color 1:
+                    <div id="color1" class="color_button" style="background-color:#c04300;"></div>
                     <div style="margin-top: 5px;" id="color2_container">Color 2:
-                        <input type="color" id="color2" value="#008D56" />
+                        <div id="color2" class="color_button" style="background-color:#008D56;"></div>
                     </div>
                 </div>
                 <div class="setting">Starting shape:<br />
@@ -157,93 +157,71 @@
         <div class="right_panel">
             <div id="content" ondragover="allowDrop(event)">
             </div>
-            <div class="toolbox" id="toolbox" draggable="true" ondragstart="dragstart(event)">
+            <!--div class="toolbox" id="toolbox" draggable="true" ondragstart="dragstart(event)">
                 <div class="grip" style="width: 100%; height: 1em; top: 0;"></div>
                 <svg xmlns=" http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path
                         d="M24 19.007c0-3.167-1.409-6.771-2.835-9.301l-.006-.01-.014-.026c-.732-1.392-1.914-3.052-3.619-4.757-2.976-2.976-5.476-3.912-6.785-3.913-.413 0-.708.094-.859.245l-.654.654c-1.898-.236-3.42.105-4.294.982-.876.875-1.164 2.159-.792 3.524.242.893.807 1.891 1.752 2.836.867.867 2.062 1.684 3.615 2.327.488-.839 1.654-1.019 2.359-.315.586.586.584 1.533-.002 2.119s-1.533.589-2.121 0c-.229-.229-.366-.515-.416-.812-1.646-.657-3.066-1.534-4.144-2.612-.728-.728-1.289-1.528-1.664-2.349l-2.835 2.832c-.445.447-.685 1.064-.686 1.82.001 1.635 1.122 3.915 3.714 6.506 2.764 2.764 5.58 4.243 7.431 4.243.649 0 1.181-.195 1.548-.562l8.086-8.079c.911.875-.777 3.541-.777 4.65 0 1.104.896 1.999 2 1.998 1.104 0 1.998-.895 1.998-2zm-18.912-12.974c-.236-.978-.05-1.845.554-2.444.526-.53 1.471-.791 2.656-.761l-3.21 3.205zm9.138 2.341l-.03-.029c-1.29-1.291-3.802-4.354-3.095-5.062.715-.715 3.488 1.521 5.062 3.095.862.863 2.088 2.248 2.938 3.459-1.718-1.073-3.493-1.469-4.875-1.463zm-3.875 12.348c-.547-.082-1.5-.547-1.9-.928l7.086-7.086c.351.37 1.264.931 1.753 1.075l-6.939 6.939z" />
-                </svg>
-            </div>
+                </svg-->
         </div>
+    </div>
     </div>
     <script>
         function init_color_picker() {
-            if (navigator.userAgent.indexOf("Safari") < 0) return; // not Safari
-            if (chromeAgent = navigator.userAgent.indexOf("Chrome") > -1)
-                return; // it is Chrome, not Safari
+            document.getElementById("color3_container").innerHTML = 'Edge: <div id="color3" class="color_button" style="background-color:#aaa;"/>';
+            var pickr_config = {
+                el: '#color1',
+                theme: 'nano',
+                default: '#c04300',
+                useAsButton: true,
+                defaultRepresentation: 'HEX',
+                swatches: [
+                    //'rgb(244, 67, 54)',
+                    'rgb(233, 30, 99)',
+                    'rgb(156, 39, 176)',
+                    //'rgb(103, 58, 183)',
+                    'rgb(63, 81, 181)',
+                    //'rgb(33, 150, 243)',
+                    'rgb(3, 169, 244)',
+                    //'rgb(0, 188, 212)'/*,
+                    'rgb(0, 150, 136)',
+                    'rgb(76, 175, 80)',
+                    //'rgb(139, 195, 74)',
+                    //'rgb(205, 220, 57)',
+                    'rgb(255, 235, 59)'//,
+                    //'rgb(255, 193, 7)'*/
+                ],
 
-            // load the css and js for the color picker
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.type = 'text/css';
-            link.href = 'ui/nano.min.css';
-            var head = document.getElementsByTagName('HEAD')[0];
-            head.appendChild(link);
-            var script = document.createElement('script');
-            script.type = "text/javascript";
-            script.src = 'ui/pickr.min.js';
-
-            var callback = function () {
-                document.getElementById("color1_container").innerHTML = 'Color 1: <div id="color1" class="color_button" style="background-color:#c04300;" />';
-                document.getElementById("color2_container").innerHTML = 'Color 2: <div id="color2" class="color_button" style="background-color:#008D56;"/>';
-                document.getElementById("color3_container").innerHTML = 'Edge: <div id="color3" class="color_button" style="background-color:#aaa;"/>';
-                var pickr_config = {
-                    el: '#color1',
-                    theme: 'nano',
-                    default: '#c04300',
-                    useAsButton: true,
-                    defaultRepresentation: 'HEX',
-                    swatches: [
-                        //'rgb(244, 67, 54)',
-                        'rgb(233, 30, 99)',
-                        'rgb(156, 39, 176)',
-                        //'rgb(103, 58, 183)',
-                        'rgb(63, 81, 181)',
-                        //'rgb(33, 150, 243)',
-                        'rgb(3, 169, 244)',
-                        //'rgb(0, 188, 212)'/*,
-                        'rgb(0, 150, 136)',
-                        'rgb(76, 175, 80)',
-                        //'rgb(139, 195, 74)',
-                        //'rgb(205, 220, 57)',
-                        'rgb(255, 235, 59)'//,
-                        //'rgb(255, 193, 7)'*/
-                    ],
-
-                    components: {
-                        preview: true,
-                        hue: true,
-                        interaction: {
-                            input: true,
-                            clear: true,
-                            save: true
-                        }
+                components: {
+                    preview: true,
+                    hue: true,
+                    interaction: {
+                        input: true,
+                        clear: true,
+                        save: true
                     }
-                };
-                const save_color = function (element_id, color, instance) {
-                    const hexColor = '#' + color.toHEXA().join("");
-                    var el = document.getElementById(element_id);
-                    el.style.backgroundColor = hexColor;
-                    el.value = hexColor;
-                    instance.hide();
                 }
-                const pickr1 = Pickr.create(pickr_config);
-                document.getElementById("color1").value = "#c04300";
-                pickr1.on('save', save_color.bind(this, "color1"));
-                pickr_config.el = "#color2";
-                pickr_config.default = "#008D56";
-                const pickr2 = Pickr.create(pickr_config);
-                document.getElementById("color2").value = "#008D56";
-                pickr2.on('save', save_color.bind(this, "color2"));
-                pickr_config.el = "#color3";
-                pickr_config.default = "#aaa";
-                document.getElementById("color3").value = "#aaa";
-                const pickr3 = Pickr.create(pickr_config);
-                pickr3.on('save', save_color.bind(this, "color3"));
             };
-            script.onreadystatechange = callback;
-            script.onload = callback;
-            document.body.appendChild(script);
+            const save_color = function (element_id, color, instance) {
+                const hexColor = '#' + color.toHEXA().join("");
+                var el = document.getElementById(element_id);
+                el.style.backgroundColor = hexColor;
+                el.value = hexColor;
+                instance.hide();
+            }
+            const pickr1 = Pickr.create(pickr_config);
+            document.getElementById("color1").value = "#c04300";
+            pickr1.on('save', save_color.bind(this, "color1"));
+            pickr_config.el = "#color2";
+            pickr_config.default = "#008D56";
+            const pickr2 = Pickr.create(pickr_config);
+            document.getElementById("color2").value = "#008D56";
+            pickr2.on('save', save_color.bind(this, "color2"));
+            pickr_config.el = "#color3";
+            pickr_config.default = "#aaa";
+            document.getElementById("color3").value = "#aaa";
+            const pickr3 = Pickr.create(pickr_config);
+            pickr3.on('save', save_color.bind(this, "color3"));
         }
         function dragstart(ev) {
             const box = ev.target;
@@ -284,6 +262,7 @@
         }
         run();
     </script>
+    <script type="text/javascript" src="ui/pickr.min.js"></script>
 </body>
 
 </html>
