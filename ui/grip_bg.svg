@@ -1,0 +1,12 @@
+<svg width="12" viewBox="0 0 6 6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+  <g id="grid" stroke-dasharray="1 1" stroke="black" stroke-width="1" >
+  <line x1="0" y1="0" x2="5" y2="0" />
+  <line x1="1" y1="1" x2="6" y2="1" />
+  </g>
+  </defs>
+  <use x="0" y="0" href="#grid" />
+  <use x="0" y="2" href="#grid" />
+  <use x="0" y="4" href="#grid" />
+  <use x="0" y="6" href="#grid" />
+</svg>
