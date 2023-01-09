@@ -191,7 +191,7 @@
             var pickr_config = {
                 el: '#color1',
                 theme: 'nano',
-                default: '#c04300',
+                default: '#BF1B1B',
                 useAsButton: true,
                 defaultRepresentation: 'HEX',
                 swatches: [
@@ -222,12 +222,12 @@
                 instance.hide();
             }
             const pickr1 = Pickr.create(pickr_config);
-            document.getElementById("color1").value = "#c04300";
+            document.getElementById("color1").value = "#BF1B1B";
             pickr1.on('save', save_color.bind(this, "color1"));
             pickr_config.el = "#color2";
-            pickr_config.default = "#008D56";
+            pickr_config.default = "#736B1E";
             const pickr2 = Pickr.create(pickr_config);
-            document.getElementById("color2").value = "#008D56";
+            document.getElementById("color2").value = "#736B1E";
             pickr2.on('save', save_color.bind(this, "color2"));
             pickr_config.el = "#color3";
             pickr_config.default = "#aaa";
